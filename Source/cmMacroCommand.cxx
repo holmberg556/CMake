@@ -2,6 +2,7 @@
    file Copyright.txt or https://cmake.org/licensing for details.  */
 #include "cmMacroCommand.h"
 
+#include <iostream>
 #include <cstdio>
 #include <utility>
 
@@ -12,6 +13,7 @@
 
 #include "cmExecutionStatus.h"
 #include "cmFunctionBlocker.h"
+#include "cmIncludeTree.h"
 #include "cmListFileCache.h"
 #include "cmMakefile.h"
 #include "cmPolicies.h"
@@ -43,6 +45,7 @@ bool cmMacroHelperCommand::operator()(
   std::vector<cmListFileArgument> const& args,
   cmExecutionStatus& inStatus) const
 {
+  cmIncludeTreeLevel treeLevel(this->Args.front(), cmIncludeTreeLevel::MacroType);
   cmMakefile& makefile = inStatus.GetMakefile();
 
   // Expand the argument list to the macro.
