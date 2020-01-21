@@ -5,6 +5,8 @@
 #include <string>
 #include <stdio.h>
 
+static bool cmIncludeTreeIsActive = false;
+
 class cmIncludeTree
 {
   void _delayedInitialize()
@@ -133,6 +135,16 @@ public:
   }
 };
 
+cmIncludeTreeActive::cmIncludeTreeActive()
+{
+  cmIncludeTreeIsActive = true;
+}
+
+cmIncludeTreeActive::~cmIncludeTreeActive()
+{
+  cmIncludeTreeIsActive = false;
+}
+
 static cmTraceTree JsonTree("cmake.trace.json");
 static cmIncludeTree Tree("cmake.tree");
 static cmIncludeTree FilesTree("cmake.files.tree");
@@ -142,6 +154,8 @@ cmIncludeTreeLevel::cmIncludeTreeLevel(std::string const& path, Type type)
 {
   Path = path;
   LevelType = type;
+
+  if (! cmIncludeTreeIsActive) return;
 
   JsonTree.Enter(Path, LevelType);
 
@@ -164,6 +178,8 @@ cmIncludeTreeLevel::cmIncludeTreeLevel(std::string const& path, Type type)
 
 cmIncludeTreeLevel::~cmIncludeTreeLevel()
 {
+  if (! cmIncludeTreeIsActive) return;
+
   JsonTree.Leave(Path, LevelType);
 
   if (LevelType == AddSubdirectoryType || LevelType == IncludeType)
