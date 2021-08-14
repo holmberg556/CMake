@@ -47,6 +47,7 @@
 #include "cmGeneratorTarget.h"
 #include "cmGlobalGenerator.h"
 #include "cmGlobalGeneratorFactory.h"
+#include "cmIncludeTree.h"
 #include "cmLinkLineComputer.h"
 #include "cmLocalGenerator.h"
 #include "cmMakefile.h"
@@ -2060,6 +2061,7 @@ int cmake::HandleDeleteCacheVariables(const std::string& var)
 
 int cmake::Configure()
 {
+  cmIncludeTreeActive includeTreeActive;
   DiagLevel diagLevel;
 
   if (this->DiagLevels.count("deprecated") == 1) {
