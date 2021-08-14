@@ -46,6 +46,7 @@
 #include "cmGeneratorTarget.h"
 #include "cmGlobalGenerator.h"
 #include "cmGlobalGeneratorFactory.h"
+#include "cmIncludeTree.h"
 #include "cmLinkLineComputer.h"
 #include "cmLocalGenerator.h"
 #include "cmMakefile.h"
@@ -2187,6 +2188,7 @@ int cmake::Configure()
   auto profilingRAII = this->CreateProfilingEntry("project", "configure");
 #endif
 
+  cmIncludeTreeActive includeTreeActive;
   DiagLevel diagLevel;
 
   if (this->DiagLevels.count("deprecated") == 1) {
