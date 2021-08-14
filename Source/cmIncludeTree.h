@@ -19,4 +19,11 @@ private:
   Type LevelType;
 };
 
+class cmIncludeTreeActive
+{
+public:
+  cmIncludeTreeActive();
+  ~cmIncludeTreeActive();
+};
+
 #endif
