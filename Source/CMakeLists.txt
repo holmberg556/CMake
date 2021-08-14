@@ -588,6 +588,8 @@ add_library(
   cmIncludeGuardCommand.h
   cmIncludeRegularExpressionCommand.cxx
   cmIncludeRegularExpressionCommand.h
+  cmIncludeTree.cxx
+  cmIncludeTree.h
   cmInstallCommand.cxx
   cmInstallCommand.h
   cmInstallCommandArguments.cxx
