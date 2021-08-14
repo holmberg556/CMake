@@ -7,6 +7,7 @@
 #include <cm/string_view>
 
 #include "cmExecutionStatus.h"
+#include "cmIncludeTree.h"
 #include "cmMakefile.h"
 #include "cmRange.h"
 #include "cmStringAlgorithms.h"
@@ -101,6 +102,7 @@ bool cmAddSubDirectoryCommand(std::vector<std::string> const& args,
   }
   binPath = cmSystemTools::CollapseFullPath(binPath);
 
+  cmIncludeTreeLevel treeLevel(srcPath);
   // Add the subdirectory using the computed full paths.
   mf.AddSubDirectory(srcPath, binPath, excludeFromAll, true);
 

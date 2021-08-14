@@ -8,6 +8,7 @@
 
 #include "cmExecutionStatus.h"
 #include "cmGlobalGenerator.h"
+#include "cmIncludeTree.h"
 #include "cmMakefile.h"
 #include "cmMessageType.h"
 #include "cmPolicies.h"
@@ -168,6 +169,7 @@ bool cmIncludeCommand(std::vector<std::string> const& args,
     }
   }
 
+  cmIncludeTreeLevel treeLevel(listFile);
   bool readit =
     status.GetMakefile().ReadDependentFile(listFile, noPolicyScope);
 
