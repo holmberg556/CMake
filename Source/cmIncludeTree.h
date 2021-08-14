@@ -10,11 +10,13 @@
 class cmIncludeTreeLevel
 {
 public:
-  cmIncludeTreeLevel(std::string const& path);
+  enum Type { AddSubdirectoryType, IncludeType, FunctionType, MacroType };
+  cmIncludeTreeLevel(std::string const& path, Type type);
   ~cmIncludeTreeLevel();
 
 private:
   std::string Path;
+  Type LevelType;
 };
 
 #endif

@@ -102,7 +102,7 @@ bool cmAddSubDirectoryCommand(std::vector<std::string> const& args,
   }
   binPath = cmSystemTools::CollapseFullPath(binPath);
 
-  cmIncludeTreeLevel treeLevel(srcPath);
+  cmIncludeTreeLevel treeLevel(srcPath, cmIncludeTreeLevel::AddSubdirectoryType);
   // Add the subdirectory using the computed full paths.
   mf.AddSubDirectory(srcPath, binPath, excludeFromAll, true);
 
