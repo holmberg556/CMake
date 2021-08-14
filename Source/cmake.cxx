@@ -2401,7 +2401,6 @@ int cmake::Run(const std::vector<std::string>& args, bool noconfigure)
     cmSystemTools::PutEnv("MAKEFLAGS=");
   }
 
-  //cmIncludeTreeActive includeTreeActive;
   {
     cmIncludeTreeLevel treeLevel("*PreLoadCMakeFiles", cmIncludeTreeLevel::FunctionType);
   }
