@@ -169,7 +169,7 @@ bool cmIncludeCommand(std::vector<std::string> const& args,
     }
   }
 
-  cmIncludeTreeLevel treeLevel(listFile);
+  cmIncludeTreeLevel treeLevel(listFile, cmIncludeTreeLevel::IncludeType);
   bool readit =
     status.GetMakefile().ReadDependentFile(listFile, noPolicyScope);
 
