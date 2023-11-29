@@ -2284,7 +2284,6 @@ int cmake::Configure()
   auto profilingRAII = this->CreateProfilingEntry("project", "configure");
 #endif
 
-  cmIncludeTreeActive includeTreeActive;
   DiagLevel diagLevel;
 
   if (this->DiagLevels.count("deprecated") == 1) {
@@ -2787,6 +2786,10 @@ int cmake::Run(const std::vector<std::string>& args, bool noconfigure)
   this->PrintPresetEnvironment();
 #endif
 
+  {
+    cmIncludeTreeLevel treeLevel("*GetWorkingMode", cmIncludeTreeLevel::FunctionType);
+  }
+
   // In script mode we terminate after running the script.
   if (this->GetWorkingMode() != NORMAL_MODE) {
     if (cmSystemTools::GetErrorOccurredFlag()) {
@@ -2804,10 +2807,19 @@ int cmake::Run(const std::vector<std::string>& args, bool noconfigure)
     cmSystemTools::PutEnv("MAKEFLAGS=");
   }
 
+  //cmIncludeTreeActive includeTreeActive;
+  {
+    cmIncludeTreeLevel treeLevel("*PreLoadCMakeFiles", cmIncludeTreeLevel::FunctionType);
+  }
+
   this->PreLoadCMakeFiles();
 
   if (noconfigure) {
     return 0;
+  }
+
+  {
+    cmIncludeTreeLevel treeLevel("*CheckBuildSystem", cmIncludeTreeLevel::FunctionType);
   }
 
   // now run the global generate
@@ -2821,6 +2833,10 @@ int cmake::Run(const std::vector<std::string>& args, bool noconfigure)
     return -1;
   }
 #endif
+
+  {
+    cmIncludeTreeLevel treeLevel("*Configure", cmIncludeTreeLevel::FunctionType);
+  }
 
   int ret = this->Configure();
   if (ret) {
