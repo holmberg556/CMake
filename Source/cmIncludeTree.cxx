@@ -5,7 +5,7 @@
 #include <string>
 #include <stdio.h>
 
-static bool cmIncludeTreeIsActive = true;
+static int cmIncludeTreeIsActive = 1;
 
 class cmIncludeTree
 {
@@ -137,12 +137,12 @@ public:
 
 cmIncludeTreeActive::cmIncludeTreeActive()
 {
-  //cmIncludeTreeIsActive = true;
+  cmIncludeTreeIsActive++;
 }
 
 cmIncludeTreeActive::~cmIncludeTreeActive()
 {
-  //cmIncludeTreeIsActive = false;
+  cmIncludeTreeIsActive--;
 }
 
 static cmTraceTree JsonTree("cmake.trace.json");
@@ -155,7 +155,7 @@ cmIncludeTreeLevel::cmIncludeTreeLevel(std::string const& path, Type type)
   Path = path;
   LevelType = type;
 
-  if (! cmIncludeTreeIsActive) return;
+  if (cmIncludeTreeIsActive <= 0) return;
 
   JsonTree.Enter(Path, LevelType);
 
@@ -178,7 +178,7 @@ cmIncludeTreeLevel::cmIncludeTreeLevel(std::string const& path, Type type)
 
 cmIncludeTreeLevel::~cmIncludeTreeLevel()
 {
-  if (! cmIncludeTreeIsActive) return;
+  if (cmIncludeTreeIsActive <= 0) return;
 
   JsonTree.Leave(Path, LevelType);
 
