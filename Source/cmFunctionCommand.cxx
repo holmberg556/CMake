@@ -11,6 +11,7 @@
 
 #include "cmExecutionStatus.h"
 #include "cmFunctionBlocker.h"
+#include "cmIncludeTree.h"
 #include "cmList.h"
 #include "cmListFileCache.h"
 #include "cmMakefile.h"
@@ -54,6 +55,7 @@ bool cmFunctionHelperCommand::operator()(
   std::vector<cmListFileArgument> const& args,
   cmExecutionStatus& inStatus) const
 {
+  cmIncludeTreeLevel treeLevel(this->Args.front(), cmIncludeTreeLevel::FunctionType);
   cmMakefile& makefile = inStatus.GetMakefile();
 
   // Expand the argument list to the function.
