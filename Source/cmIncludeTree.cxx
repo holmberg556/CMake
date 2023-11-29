@@ -5,7 +5,7 @@
 #include <string>
 #include <stdio.h>
 
-static bool cmIncludeTreeIsActive = false;
+static bool cmIncludeTreeIsActive = true;
 
 class cmIncludeTree
 {
@@ -137,12 +137,12 @@ public:
 
 cmIncludeTreeActive::cmIncludeTreeActive()
 {
-  cmIncludeTreeIsActive = true;
+  //cmIncludeTreeIsActive = true;
 }
 
 cmIncludeTreeActive::~cmIncludeTreeActive()
 {
-  cmIncludeTreeIsActive = false;
+  //cmIncludeTreeIsActive = false;
 }
 
 static cmTraceTree JsonTree("cmake.trace.json");
