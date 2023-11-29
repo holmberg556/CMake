@@ -4,6 +4,7 @@
 
 #include <string>
 #include <stdio.h>
+#include <stdlib.h>
 
 static int cmIncludeTreeIsActive = 1;
 
@@ -14,9 +15,11 @@ class cmIncludeTree
     if (File == nullptr)
     {
       Level = 0;
-      File = fopen(Filename.c_str(), "w");
+      std::string path = Dir + "/" + Filename;
+      File = fopen(path.c_str(), "w");
       if (File == NULL)
       {
+        fprintf(stderr, "error: can't open '%s'\n", path.c_str());
         perror("fopen");
         exit(1);
       }
@@ -27,6 +30,12 @@ public:
   cmIncludeTree(std::string filename)
   {
     Filename = filename;
+    File = nullptr;
+    static const char * c_dir = getenv("CMAKE_CALL_TREE_DIR");
+    if (c_dir != nullptr)
+    {
+      Dir = c_dir;
+    }
   }
 
   ~cmIncludeTree()
@@ -39,14 +48,20 @@ public:
 
   void WriteLine(std::string const& line)
   {
-    _delayedInitialize();
-    fprintf(File, "%s\n", line.c_str());
+    if (Dir.size() > 0)
+    {
+      _delayedInitialize();
+      fprintf(File, "%s\n", line.c_str());
+    }
   }
 
   void Write(std::string const& line)
   {
-    _delayedInitialize();
-    fprintf(File, "%s", line.c_str());
+    if (Dir.size() > 0)
+    {
+      _delayedInitialize();
+      fprintf(File, "%s", line.c_str());
+    }
   }
 
   void Enter(std::string const& path, cmIncludeTreeLevel::Type type)
@@ -69,6 +84,7 @@ public:
 
 protected:
   std::string Filename;
+  std::string Dir;
   int Level;
   FILE * File;
 };
