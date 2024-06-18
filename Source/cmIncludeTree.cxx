@@ -5,6 +5,7 @@
 #include <string>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 static int cmIncludeTreeIsActive = 1;
 
@@ -32,8 +33,9 @@ public:
     Filename = filename;
     File = nullptr;
     static const char * c_dir = getenv("CMAKE_CALL_TREE_DIR");
-    if (c_dir != nullptr)
+    if (c_dir != nullptr && strcmp(c_dir, "0") != 0)
     {
+      putenv("CMAKE_CALL_TREE_DIR=0");
       Dir = c_dir;
     }
   }
